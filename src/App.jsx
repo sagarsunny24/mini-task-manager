@@ -1,20 +1,26 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AppBar from './components/AppBar'
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import { Dialog } from "@mui/material";
 import Home from "./components/Home";
 import FilterBar from "./components/FilterBar";
-
+import './App.css'
 
 export default function App({toggleDarkmode}) {
- const [tasks, setTasks] = useState([]);
+ const [tasks, setTasks] = useState(()=> {
+  const stored = localStorage.getItem('taskList')
+  return stored ? JSON.parse(stored) : []});
  const [addtask, setAddtask] = useState(false);
  const [editingTask, setEditingTask] = useState(null);
  const [filterType, setFiltertype] = useState('all')
 
  const isEmpty = tasks.length === 0;
 
+ useEffect(()=>{
+  localStorage.setItem('taskList',JSON.stringify(tasks));
+
+ },[tasks])
  function onAdd(task){
   const taskId = {id:crypto.randomUUID(), completed: false, ...task}
   setTasks([...tasks,taskId])

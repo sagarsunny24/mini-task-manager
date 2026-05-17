@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Container, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
-
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useState } from 'react';
 
 export default function TaskForm({onSubmit, initialValues = null, onCancel}) {
@@ -22,6 +22,7 @@ export default function TaskForm({onSubmit, initialValues = null, onCancel}) {
           textAlign: 'center',
           mb: 1,
         }}>
+          <AssignmentIcon />
         </Avatar>
         <Typography component='h1' variant='h5' sx={{textAlign:'center'}}>{isEditing ? 'Edit Task' : 'Add Task'}</Typography>
         <Box 
