@@ -4,10 +4,14 @@ import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import { Dialog } from "@mui/material";
 import Home from "./components/Home";
-export default function App() {
+import FilterBar from "./components/FilterBar";
+
+
+export default function App({toggleDarkmode}) {
  const [tasks, setTasks] = useState([]);
  const [addtask, setAddtask] = useState(false);
  const [editingTask, setEditingTask] = useState(null);
+ const [filterType, setFiltertype] = useState('all')
 
  const isEmpty = tasks.length === 0;
 
@@ -48,16 +52,25 @@ export default function App() {
     setTasks(newTasks)
   }
   function onFilter(type){
-
+    setFiltertype(type)
   }
+  const priorityOrder = {high: 1, medium: 2, low: 3}
+  const filteredTasks = tasks.filter((t) => {
+    if (filterType === 'all') return true
+    if (filterType === 'completed') return t.completed === true
+    if(filterType === 'pending') return t.completed === false
+    return true
+  })
+  .slice()
+  .sort((a,b)=> priorityOrder[a.priority] - priorityOrder[b.priority])
 
   function onSubmit(fields){
     onAdd(fields);
     setAddtask(false);
   }
   return (
-    <div>
-      <AppBar addtask={addtask} setAddtask={setAddtask} />
+      <>
+      <AppBar addtask={addtask} setAddtask={setAddtask} toggleDarkmode={toggleDarkmode} />
       <Dialog
       open={addtask}
       onClose={()=> {setEditingTask(null); setAddtask(false)}}
@@ -75,7 +88,8 @@ export default function App() {
             />
       }
       </Dialog>
-      {isEmpty ? <Home /> : <TaskList tasks={tasks} onEdit={(task)=> {setEditingTask(task); setAddtask(true);}} onToggle={onToggle} onDelete={onDelete}/>}
-    </div>
+      <FilterBar onFilter={onFilter} filterType={filterType}/>
+      {isEmpty ? <Home /> : <TaskList filterType={filterType} tasks= {filteredTasks} onEdit={(task)=> {setEditingTask(task); setAddtask(true);}} onToggle={onToggle} onDelete={onDelete}/>}
+    </>
   )
 }

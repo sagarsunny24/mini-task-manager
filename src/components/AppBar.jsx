@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-
-
-export default function NavBar({setAddtask}) {
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+export default function NavBar({setAddtask, toggleDarkmode}) {
   function handleClick(){
     setAddtask(true)
   }
@@ -20,6 +20,10 @@ export default function NavBar({setAddtask}) {
           <Box sx={{flexGrow: 1}}>
             {/* put search bar here when its logged in */}
           </Box>
+          <Button onClick={toggleDarkmode}>
+            <LightModeIcon/>
+            <DarkModeIcon />
+          </Button>
           <Button variant='contained' onClick={handleClick}>+ Add Task</Button>
         </Toolbar>
       </AppBar>
