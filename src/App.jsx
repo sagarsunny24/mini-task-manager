@@ -26,7 +26,7 @@ export default function App({toggleDarkmode, darkMode} ) {
  function onAdd(task){
   const taskId = {id:crypto.randomUUID(), completed: false, ...task}
   setTasks([...tasks,taskId])
-  console.log(tasks)
+  setSearch('')
  }
  
  function onDelete(id){
