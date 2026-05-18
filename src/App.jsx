@@ -7,10 +7,11 @@ import Home from "./components/Home";
 import FilterBar from "./components/FilterBar";
 import './App.css'
 
-export default function App({toggleDarkmode}) {
+export default function App({toggleDarkmode, darkMode} ) {
  const [tasks, setTasks] = useState(()=> {
-  const stored = localStorage.getItem('taskList')
-  return stored ? JSON.parse(stored) : []});
+        const stored = localStorage.getItem('taskList')
+        return stored ? JSON.parse(stored) : []
+        });
  const [addtask, setAddtask] = useState(false);
  const [editingTask, setEditingTask] = useState(null);
  const [filterType, setFiltertype] = useState('all')
@@ -60,15 +61,15 @@ export default function App({toggleDarkmode}) {
   function onFilter(type){
     setFiltertype(type)
   }
-  const priorityOrder = {high: 1, medium: 2, low: 3}
+  // const priorityOrder = {high: 1, medium: 2, low: 3}
   const filteredTasks = tasks.filter((t) => {
     if (filterType === 'all') return true
     if (filterType === 'completed') return t.completed === true
     if(filterType === 'pending') return t.completed === false
     return true
   })
-  .slice()
-  .sort((a,b)=> priorityOrder[a.priority] - priorityOrder[b.priority])
+  // .slice()
+  // .sort((a,b)=> priorityOrder[a.priority] - priorityOrder[b.priority])
 
   function onSubmit(fields){
     onAdd(fields);
@@ -76,7 +77,7 @@ export default function App({toggleDarkmode}) {
   }
   return (
       <>
-      <AppBar addtask={addtask} setAddtask={setAddtask} toggleDarkmode={toggleDarkmode} />
+      <AppBar addtask={addtask} setAddtask={setAddtask} toggleDarkmode={toggleDarkmode} darkMode={darkMode} />
       <Dialog
       open={addtask}
       onClose={()=> {setEditingTask(null); setAddtask(false)}}

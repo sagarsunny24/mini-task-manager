@@ -55,6 +55,6 @@ export default function Root(){
 
   return ( <ThemeProvider theme={darkMode? darkTheme: theme}>
     <CssBaseline />
-    <App toggleDarkmode={()=>setDarkmode(!darkMode)} />
+    <App toggleDarkmode={()=>setDarkmode(!darkMode)} darkMode ={darkMode} />
     </ThemeProvider>);
 }

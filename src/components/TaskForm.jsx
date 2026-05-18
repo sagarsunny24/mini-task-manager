@@ -1,6 +1,8 @@
 import { Avatar, Box, Button, Container, MenuItem, Paper, Select, TextField, Typography } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useState } from 'react';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
 export default function TaskForm({onSubmit, initialValues = null, onCancel}) {
 
@@ -38,8 +40,12 @@ export default function TaskForm({onSubmit, initialValues = null, onCancel}) {
             value={title}
             onChange={(e) =>{setTitle(e.target.value)}}
             />
+        <FormControl fullWidth>
+          <InputLabel id="priority-id">Priority</InputLabel>
           <Select
             fullWidth
+            label = 'Priority'
+            labelId='priority-id'
             value={priority}
             onChange={(e)=> setPriority(e.target.value)}
             sx={{mb:2}}
@@ -47,8 +53,11 @@ export default function TaskForm({onSubmit, initialValues = null, onCancel}) {
               <MenuItem value ='low'>Low</MenuItem>
               <MenuItem value ='medium'>Medium</MenuItem>                <MenuItem value='high'>High</MenuItem>
           </Select>
-          <Typography variant="body2" sx={{ mb: 0.5 }}>Due date</Typography>
+          </FormControl>
+          {/* <Typography variant="body2" sx={{ mb: 0.5 }}>Due date</Typography> */}
           <TextField
+          slotProps={{ inputLabel: { shrink: true } }}
+          label='Due Date'
           type='date'
           fullWidth
           sx={{mb:2}}

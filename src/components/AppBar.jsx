@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-export default function NavBar({setAddtask, toggleDarkmode}) {
+export default function NavBar({setAddtask, toggleDarkmode , darkMode}) {
   function handleClick(){
     setAddtask(true)
   }
@@ -21,8 +21,7 @@ export default function NavBar({setAddtask, toggleDarkmode}) {
             {/* put search bar here when its logged in */}
           </Box>
           <Button onClick={toggleDarkmode}>
-            <LightModeIcon/>
-            <DarkModeIcon />
+            {darkMode ? <DarkModeIcon /> : <LightModeIcon/> }
           </Button>
           <Button variant='contained' onClick={handleClick}>+ Add Task</Button>
         </Toolbar>
