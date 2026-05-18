@@ -8,9 +8,9 @@ import InputBase from '@mui/material/InputBase';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.secondary.main, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.secondary.main, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -78,7 +78,18 @@ export default function FilterBar({onFilter, filterType, search, onSearch}) {
       height: 28,
       px: 1,
       mb: 1,
-    }}}
+    },
+      '& .MuiToggleButton-root.Mui-selected': {
+    backgroundColor: 'primary.main',
+    color: 'secondary.main',
+  },
+
+  // hover while selected
+  '& .MuiToggleButton-root.Mui-selected:hover': {
+    backgroundColor: 'primary.light',
+  },
+}}
+  
     >
       <ToggleButton value="all">All</ToggleButton>
       <ToggleButton value="completed">Completed</ToggleButton>
