@@ -21,15 +21,16 @@ Hosted on Vercel: https://mini-task-manager-three-puce.vercel.app/
 5. Priority Levels — Low, Medium, High, shown as colour-coded chips (green / orange / red)
 6. Due Date Support — optional date picker on each task, shows -- if not set
 7. Filter by Status — toggle between All, Completed, and Pending views
-8. Persistent Storage — tasks are saved to localStorage so they survive page refreshes
-9. Dark / Light Mode — full theme switch using MUI's ThemeProvider, toggled from the navbar
-10. Empty State — a friendly placeholder shown when no tasks exist yet
-11. Unique IDs — each task gets a crypto.randomUUID() so edits and deletes are always precise
-12. Responsive Modal — the same Dialog handles both add and edit without duplicating any UI
+8. Seach by Name - Added a search bar to search among the tasks by title name
+9. Persistent Storage — tasks are saved to localStorage so they survive page refreshes
+10. Dark / Light Mode — full theme switch using MUI's ThemeProvider, toggled from the navbar
+11. Empty State — a friendly placeholder shown when no tasks exist yet
+12. Unique IDs — each task gets a crypto.randomUUID() so edits and deletes are always precise
+13. Responsive Modal — the same Dialog handles both add and edit without duplicating any UI
 
 ### Components
 
-```
+```js
 <Root>                          ---> Manages theme (dark/light) and wraps everything in ThemeProvider
   <App>                         ---> Core state: tasks, addtask dialog, editingTask, filterType
     <AppBar />                  ---> Nav with dark mode toggle and "+ Add Task" button
@@ -53,12 +54,14 @@ const [tasks, setTasks] = useState(()=> {
 const [addtask, setAddtask] = useState(false);
 const [editingTask, setEditingTask] = useState(null);
 const [filterType, setFiltertype] = useState('all')
+ const [search, setSearch] = useState('')
 ```
 
 `tasks` --> initialised from localStorage so tasks survive a page refresh  
 `addtask` --> controls whether the Dialog (modal) is open  
 `editingTask` --> holds the task being edited; when non-null, the Dialog renders TaskForm in edit mode  
 `filterType` --> drives the `filteredTasks` derived array shown to `<TaskList />`
+`search` --> updates when user inputs into search bar, used in filtering
 
 CRUD functions are defined here and passed as props:
 - `onAdd` --> generates a UUID and appends the task
@@ -66,6 +69,20 @@ CRUD functions are defined here and passed as props:
 - `onEdit` --> maps over tasks and replaces the matching one
 - `onToggle` --> flips the `completed` boolean on the matching task
 - `onFilter` --> updates `filterType`, which recomputes `filteredTasks`
+
+```js
+const filteredTasks = tasks.filter((t) => {
+    const matchesSearch =
+    t.title.toLowerCase().includes(search.toLowerCase());
+   const matchesFilter =
+    (filterType === 'all') ||
+    (filterType === 'completed' && t.completed === true) ||
+    (filterType === 'pending' && t.completed === false)
+
+    return matchesSearch && matchesFilter
+  })
+```
+ - This part of App js handles both search and filtering functionality - it does so by depending on the filterType and search state variables.
 
 ## TaskForm.jsx
 
