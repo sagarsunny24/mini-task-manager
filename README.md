@@ -1,6 +1,8 @@
 # Task Manager App
 A task management app built using React and Material UI, supporting full CRUD operations, dark/light theming, filtering, and persistent local storage.
 
+Hosted on Vercel: https://mini-task-manager-three-puce.vercel.app/
+
 ## Concepts Utilised
 1. React Functional Components
 2. Props, State variables, useEffect.
