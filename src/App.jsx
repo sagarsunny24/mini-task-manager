@@ -15,6 +15,7 @@ export default function App({toggleDarkmode, darkMode} ) {
  const [addtask, setAddtask] = useState(false);
  const [editingTask, setEditingTask] = useState(null);
  const [filterType, setFiltertype] = useState('all')
+ const [search, setSearch] = useState('')
 
  const isEmpty = tasks.length === 0;
 
@@ -63,13 +64,18 @@ export default function App({toggleDarkmode, darkMode} ) {
   }
   // const priorityOrder = {high: 1, medium: 2, low: 3}
   const filteredTasks = tasks.filter((t) => {
-    if (filterType === 'all') return true
-    if (filterType === 'completed') return t.completed === true
-    if(filterType === 'pending') return t.completed === false
-    return true
+    const matchesSearch =
+    t.title.toLowerCase().includes(search.toLowerCase());
+   const matchesFilter =
+    (filterType === 'all') ||
+    (filterType === 'completed' && t.completed === true) ||
+    (filterType === 'pending' && t.completed === false)
+
+    return matchesSearch && matchesFilter
   })
   // .slice()
   // .sort((a,b)=> priorityOrder[a.priority] - priorityOrder[b.priority])
+
 
   function onSubmit(fields){
     onAdd(fields);
@@ -95,7 +101,7 @@ export default function App({toggleDarkmode, darkMode} ) {
             />
       }
       </Dialog>
-      <FilterBar onFilter={onFilter} filterType={filterType}/>
+      <FilterBar onFilter={onFilter} filterType={filterType} search={search} onSearch={(e)=>setSearch(e)}/>
       {isEmpty ? <Home /> : <TaskList filterType={filterType} tasks= {filteredTasks} onEdit={(task)=> {setEditingTask(task); setAddtask(true);}} onToggle={onToggle} onDelete={onDelete}/>}
     </>
   )
