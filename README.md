@@ -1,9 +1,11 @@
 # Task Manager App
+
 A task management app built using React and Material UI, supporting full CRUD operations, dark/light theming, filtering, and persistent local storage.
 
 Hosted on Vercel: https://mini-task-manager-three-puce.vercel.app/
 
 ## Concepts Utilised
+
 1. React Functional Components
 2. Props, State variables, useEffect.
 3. MUI (Material UI) component library — AppBar, Dialog, Table, Chip, ToggleButtonGroup, etc.
@@ -14,6 +16,7 @@ Hosted on Vercel: https://mini-task-manager-three-puce.vercel.app/
 8. Conditional rendering for empty states, filtered views, and form modes
 
 ## Features
+
 1. Add Tasks — via a modal Dialog with fields for title, priority, and due date
 2. Edit Tasks — same form reused in edit mode, pre-filled with existing values
 3. Delete Tasks — removes a task instantly by its UUID
@@ -47,14 +50,14 @@ Hosted on Vercel: https://mini-task-manager-three-puce.vercel.app/
 ## App.jsx
 
 ```js
-const [tasks, setTasks] = useState(()=> {
-  const stored = localStorage.getItem('taskList')
-  return stored ? JSON.parse(stored) : []
+const [tasks, setTasks] = useState(() => {
+  const stored = localStorage.getItem("taskList");
+  return stored ? JSON.parse(stored) : [];
 });
 const [addtask, setAddtask] = useState(false);
 const [editingTask, setEditingTask] = useState(null);
-const [filterType, setFiltertype] = useState('all')
- const [search, setSearch] = useState('')
+const [filterType, setFiltertype] = useState("all");
+const [search, setSearch] = useState("");
 ```
 
 `tasks` --> initialised from localStorage so tasks survive a page refresh  
@@ -64,6 +67,7 @@ const [filterType, setFiltertype] = useState('all')
 `search` --> updates when user inputs into search bar, used in filtering
 
 CRUD functions are defined here and passed as props:
+
 - `onAdd` --> generates a UUID and appends the task
 - `onDelete` --> filters out the task by id
 - `onEdit` --> maps over tasks and replaces the matching one
@@ -72,26 +76,27 @@ CRUD functions are defined here and passed as props:
 
 ```js
 const filteredTasks = tasks.filter((t) => {
-    const matchesSearch =
-    t.title.toLowerCase().includes(search.toLowerCase());
-   const matchesFilter =
-    (filterType === 'all') ||
-    (filterType === 'completed' && t.completed === true) ||
-    (filterType === 'pending' && t.completed === false)
+  const matchesSearch = t.title.toLowerCase().includes(search.toLowerCase());
+  const matchesFilter =
+    filterType === "all" ||
+    (filterType === "completed" && t.completed === true) ||
+    (filterType === "pending" && t.completed === false);
 
-    return matchesSearch && matchesFilter
-  })
+  return matchesSearch && matchesFilter;
+});
 ```
- - This part of App js handles both search and filtering functionality - it does so by depending on the filterType and search state variables.
+
+- This part of App js handles both search and filtering functionality - it does so by depending on the filterType and search state variables.
 
 ## TaskForm.jsx
 
 Here I made the TaskForm as a compound component - that derives whether it's in Add mode or Editing mode , depending on the initialValues passed - if empty? add mode, else edit mode
+
 ```js
-const isEditing = Boolean(initialValues)
+const isEditing = Boolean(initialValues);
 const [title, setTitle] = useState(initialValues?.title ?? "");
-const [priority, setPriority] = useState(initialValues?.priority ?? 'medium');
-const [dueDate, setDuedate] = useState(initialValues?.dueDate ?? '');
+const [priority, setPriority] = useState(initialValues?.priority ?? "medium");
+const [dueDate, setDuedate] = useState(initialValues?.dueDate ?? "");
 ```
 
 ## TaskList.jsx
@@ -99,15 +104,14 @@ const [dueDate, setDuedate] = useState(initialValues?.dueDate ?? '');
 Instead of having a seperate component - `<TaskItem />` , I opted for using MUI's built in Table Component structure.
 
 ```js
-{tasks.map((task) => (
-  <StyledTableRow key={task.id}>
-    ...
-  </StyledTableRow>
-))}
+{
+  tasks.map((task) => <StyledTableRow key={task.id}>...</StyledTableRow>);
+}
 ```
 
 Renders tasks as a styled MUI Table using `StyledTableCell` and `StyledTableRow`
 Each row includes:
+
 - A `Checkbox` wired to `onToggle` for marking tasks complete
 - The task title with `line-through` styling applied when completed
 - A `Chip` coloured by priority (`error` for high, `warning` for medium, `success` for low)
